@@ -8,6 +8,7 @@
  Key ideas:
 Use microphone for picking up audio to enable the dandelion to blow seeds to enable glide mechanics.
 2 Inputs, touch screen and on-screen joysticks.
+Framework API will be used to save data and progress externally to a server.
 Monitization can be given by completing 4 levels, and payment to proceed for more.
 
 White box design of a simple level of game with yellow flower as goal.
