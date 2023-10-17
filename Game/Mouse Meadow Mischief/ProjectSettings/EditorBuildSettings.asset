@@ -6,6 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  m_configObjects: {}
+    path: Assets/Scenes/StartScene.unity
+    guid: 656529e38f76bd7419afb171ecd21172
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 8178d5416737b5b4089a2cc23349f28e
+  - enabled: 1
+    path: Assets/Scenes/WinScene.unity
+    guid: cfcafeaf880c3df43a8e271659e2c4db
+  m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 9ab9c0362d7273c4a9e1e8306b2b763b, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 9904a539791fa3044a70edb37e25acb5, type: 2}
