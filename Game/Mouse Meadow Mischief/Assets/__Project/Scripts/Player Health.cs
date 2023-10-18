@@ -1,11 +1,11 @@
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // Add this line to access scene management
 
 public class PlayerHealth : MonoBehaviour
 {
     public int maxLives = 3;    // Maximum lives of the player
-    private int currentLives;   // Current lives of the player
+    private static int currentLives;   // Current lives of the player
 
     public UnityEngine.UI.Image[] heartImages; // An array of UI images representing the hearts
 
@@ -28,7 +28,9 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             UnityEngine.Debug.Log("Player is out of lives. Game over!");
-            // Implement game over or other end-of-game logic here
+
+            // Move to the game over scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
         }
     }
 
@@ -45,5 +47,11 @@ public class PlayerHealth : MonoBehaviour
                 heartImages[i].enabled = false; // Hide the remaining hearts
             }
         }
+    }
+
+    // Add a static method to access the currentLives value
+    public static int GetCurrentLives()
+    {
+        return currentLives;
     }
 }

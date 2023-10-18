@@ -1,10 +1,11 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Score : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
-    public int startingPoints = 10000;
+    public int startingPoints = 1000;
     public int decreaseRate = 10; // Points decrease per second
     public int goalPoints = 0; // The goal points you want to reach
 
@@ -30,8 +31,18 @@ public class Score : MonoBehaviour
             PlayerPrefs.SetInt("Score", currentPoints);
             PlayerPrefs.Save();
 
-            // Stop the point decrease logic.
-            CancelInvoke("DecreasePointsOverTime");
+            // Check if the player's health is also 0 before transitioning to the game over scene
+            if (PlayerHealth.GetCurrentLives() <= 0)
+            {
+                // Player's health is 0, move to the game over scene
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+            }
+        }
+
+        // Add this block to change the scene when currentPoints reaches 0
+        if (currentPoints <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
         }
     }
 
