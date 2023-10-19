@@ -42,7 +42,12 @@ Game over screen will be shown when the player *either* has no lives left or the
 
 ![image](https://github.com/ChloeWoodman/Mobile-Game_Development_Chloe_Woodman/assets/113985493/08b8d0d1-c6a9-4443-93b6-4283b1e6623b)
 
+# Frameworks to implement
+I have already implemented Unity Ads (as seen in the white box above), this framework (although created by Unity) will be utilized for online features elsewhere; I plan to use Unity Ads on Google Play as a point to save player data; also to make it modular (e.g. have time in between ads so they do not show after every completed level because this could frustrate the player and make them stop playing.
 
+I am also considering implementing Cinemachine because of its dynamic camera control and responsive camera systems, with smooth transitions between camera states, and cinematic effects which boost the user's experience playing the game; making it more interactive.
+
+I will also be considering an advanced lighting framework due to the fact my mobile game is very bright and colorful, thus the lighting will be implemented to utilize the scene's brightness and bring character and charm to the game that intrigues users.
 
 
 
