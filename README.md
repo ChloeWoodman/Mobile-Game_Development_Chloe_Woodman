@@ -26,6 +26,7 @@ The white box design of a simple level of the game with a yellow flower as the g
 ![image](https://github.com/ChloeWoodman/Mobile-Game_Development_Chloe_Woodman/assets/113985493/424506da-cd8d-43c1-8bea-8296ad2b4047)
 
 If the player presses the top left corner yellow button, this will open the pause menu that pauses the game and gives you a resume game button that unpauses and resumes the game, an actions menu, and an exit button that returns to the start menu.
+
 ![image](https://github.com/ChloeWoodman/Mobile-Game_Development_Chloe_Woodman/assets/113985493/ee4dc74e-91b2-42f6-810d-d315043b6dcc)
 
 
@@ -43,11 +44,12 @@ Game over screen will be shown when the player *either* has no lives left or the
 ![image](https://github.com/ChloeWoodman/Mobile-Game_Development_Chloe_Woodman/assets/113985493/08b8d0d1-c6a9-4443-93b6-4283b1e6623b)
 
 # Frameworks to implement
-I have already implemented Unity Ads (as seen in the white box above), this framework (although created by Unity) will be utilized for online features elsewhere; I plan to use Unity Ads on Google Play as a point to save player data; also to make it modular (e.g. have time in between ads so they do not show after every completed level because this could frustrate the player and make them stop playing.
+I have already implemented Unity Ads (as seen in the white box above), and this framework (although created by Unity) will be utilized for online features elsewhere. I plan to use Unity Ads to make it modular (e.g., have time in between ads so they do not show after every completed level because this could frustrate the player and make them stop playing). I can also utilize the Unity Ads framework by adding extra lives for the player and extra skins for the player to unlock if they watch an ad.
 
-I am also considering implementing Cinemachine because of its dynamic camera control and responsive camera systems, with smooth transitions between camera states, and cinematic effects which boost the user's experience playing the game; making it more interactive.
+I am also considering implementing Cinemachine because of its dynamic camera control and responsive camera systems, smooth transitions between camera states, and cinematic effects that boost the user's experience playing the game, making it more interactive. I will be making the camera slightly shake when a life is lost, using its smooth-follow camera features (virtual camera) to move dynamically, and using procedural cinematics by making the wind affect the camera to make the outdoor environment more realistic.
 
-I will also be considering an advanced lighting framework due to the fact my mobile game is very bright and colorful, thus the lighting will be implemented to utilize the scene's brightness and bring character and charm to the game that intrigues users.
+Unity's High Definition Render Pipeline (HDRP) is another framework I am implementing due to its design making the game very beautiful visually. I will be implementing this for 3 core reasons; physically based rendering (PBR) that will simulate the interactions of light with materials so materials, textures, and lights are more realistic - volumetric lighting and fog to improve the game atmosphere and seem more realistic - and, finally, the fact it will allow me to use the Unity's Shader Graph to create and customize shaders without needing to code, thus giving custom materials and shaders specific visual effects that improve the game's stylization/
 
-
+# Mobile features
+As I will have a dandelion mechanic that can blow its seeds and the player can attach to until they reach the ground, I have decided to implement my mobile features inside of its gliding mechanic to ensure it is still relevant to the game; I have microphone input to begin the gliding state, and then use the mobile accelerometer to tilt the mouse, so the player can glide around more naturally.
 
