@@ -10,6 +10,7 @@ TagManager:
   - ExitButton
   - GroundEnemy
   - FlyingEnemy
+  - Dandelion
   layers:
   - Default
   - TransparentFX

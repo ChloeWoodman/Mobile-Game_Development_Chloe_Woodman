@@ -4,7 +4,7 @@ public class TouchMovement : MonoBehaviour
 {
     public Joystick joystick;
     public float runSpeed = 10.0f;
-    public float jumpForce = 10.0f;
+    public float jumpForce = 20.0f; // Increased jump force
     private Rigidbody rb;
     private bool isJumping = false;
 
@@ -70,7 +70,7 @@ public class TouchMovement : MonoBehaviour
 
     public void Jump()
     {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange); // Use ForceMode.VelocityChange for a faster jump
         isJumping = true;
     }
 }
