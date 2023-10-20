@@ -3,8 +3,6 @@ using UnityEngine.Android;
 
 public class MicrophoneManager : MonoBehaviour
 {
-    private GameObject dialog;
-
     public bool HasMicrophonePermission => Permission.HasUserAuthorizedPermission(Permission.Microphone);
 
     public void RequestMicrophonePermission()
@@ -12,19 +10,6 @@ public class MicrophoneManager : MonoBehaviour
         if (!HasMicrophonePermission)
         {
             Permission.RequestUserPermission(Permission.Microphone);
-            dialog = new GameObject();
-        }
-    }
-
-    public void HandleMicrophonePermissionDialog()
-    {
-        if (!HasMicrophonePermission)
-        {
-            dialog.AddComponent<PermissionsRationaleDialog>();
-        }
-        else if (dialog != null)
-        {
-            Destroy(dialog);
         }
     }
 
