@@ -4,30 +4,37 @@ public class AirGlideController : MonoBehaviour
 {
     public float glidingSpeed = 5.0f;
     public float tiltSpeed = 2.0f;
-    public float blowThreshold = 0.1f; // Adjust this value based on your microphone sensitivity
-    public float glideHeight = 2.0f; // Height above the ground at which gliding is allowed
-    private Animator animator; // Reference to the Animator component
-    private bool isGlideAnimationPlaying = false; // Flag to track whether the glide animation is playing
-    private Rigidbody rb;
-    private bool isGliding = false;
-    private bool canGlide = false; // Flag to check if the player can start gliding
-    private AudioSource audioSource;
-    private float[] audioData = new float[128]; // Initialize an array to store audio data
+    public float blowThreshold = 0.1f;
+    public float glideHeight = 2.0f;
 
-    void Start()
+    private Rigidbody rb;
+    //private AudioSource audioSource;
+    //private float[] audioData = new float[128];
+    private MicrophoneManager microphoneManager;
+
+    private bool isGliding = false;
+    private bool canGlide = false;
+    //private bool isGlideAnimationPlaying = false;
+
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true; // Make sure the Z-axis is the forward axis
+        rb.freezeRotation = true;
 
-        audioSource = GetComponent<AudioSource>(); // Reference the AudioSource component
-
-        //animator = GetComponent<Animator>();
+        microphoneManager = FindObjectOfType<MicrophoneManager>();
+        microphoneManager.HandleMicrophonePermissionDialog();
     }
 
-    void Update()
+    private void Update()
     {
-        // Check for microphone input (blow detection) and the ability to glide
-        float microphoneInputLevel = GetMicrophoneInputLevel();
+        microphoneManager.HandleMicrophonePermissionDialog();
+
+        float[] audioData = new float[128]; // or adjust the array size as needed
+
+        // Create an AudioSource if you don't have one already
+        AudioSource audioSource = GetComponent<AudioSource>(); // You may need to configure the audio source as needed
+
+        float microphoneInputLevel = microphoneManager.GetMicrophoneInputLevel(audioSource, audioData);
 
         if (microphoneInputLevel > blowThreshold && canGlide)
         {
@@ -40,96 +47,78 @@ public class AirGlideController : MonoBehaviour
 
         // Tilt the glider based on accelerometer input
         Vector3 tilt = Input.acceleration;
-        tilt = Quaternion.Euler(0, 0, -90) * tilt; // Adjust for device orientation
+        tilt = Quaternion.Euler(0, 0, -90) * tilt;
         rb.AddTorque(tilt * tiltSpeed);
 
-        // Check if the player is falling (height above the ground < glideHeight)
         if (canGlide)
         {
+            // Check if the player is falling
             RaycastHit hit;
             if (Physics.Raycast(transform.position, Vector3.down, out hit))
             {
                 float heightAboveGround = transform.position.y - hit.point.y;
                 if (heightAboveGround < glideHeight && !isGliding)
                 {
-                    canGlide = false; // Prevent further gliding until the player lands
-                    audioSource.Stop(); // Stop audio when gliding ends
+                    canGlide = false;
+                    //audioSource.Stop();
                 }
             }
 
-            if (!isGlideAnimationPlaying)
-            {
-                // Start the glide animation
-                //animator.SetBool("IsGliding", true);
-                isGlideAnimationPlaying = true;
-                audioSource.Play(); // Start audio when gliding begins
-            }
-        }
-        else
-        {
-            if (isGlideAnimationPlaying)
-            {
-                // Stop the glide animation
-                //animator.SetBool("IsGliding", false);
-                isGlideAnimationPlaying = false;
-                audioSource.Stop(); // Stop audio when gliding animation ends
-            }
+            //    if (!isGlideAnimationPlaying)
+            //    {
+            //        isGlideAnimationPlaying = true;
+            //        audioSource.Play();
+            //    }
+            //}
+            //else
+            //{
+            //    if (isGlideAnimationPlaying)
+            //    {
+            //        isGlideAnimationPlaying = false;
+            //        audioSource.Stop();
+            //    }
         }
 
-        // Apply forward gliding force while gliding
         if (isGliding)
         {
-            rb.AddForce(transform.forward * glidingSpeed);
+            // Update the existing 'tilt' variable based on accelerometer input
+            tilt = Input.acceleration;
+            tilt = Quaternion.Euler(0, 0, -90) * tilt;
+
+            // Use the microphone input to control gliding speed
+            float adjustedSpeed = glidingSpeed * (1.0f + microphoneInputLevel);
+
+            rb.AddTorque(tilt * tiltSpeed);
+            rb.AddForce(transform.forward * adjustedSpeed);
         }
-    }
-
-    float GetMicrophoneInputLevel()
-    {
-        audioSource.GetOutputData(audioData, 0); // Get audio data from the microphone
-        float microphoneLevel = 0;
-
-        // Calculate the microphone input level
-        for (int i = 0; i < audioData.Length; i++)
-        {
-            microphoneLevel += Mathf.Abs(audioData[i]);
-        }
-
-        return microphoneLevel / audioData.Length;
     }
 
     void StartGliding()
     {
+        UnityEngine.Debug.Log("StartGliding called");
         isGliding = true;
-        audioSource.Play(); // Start audio when gliding begins
-        // Add any specific setup when gliding starts
     }
 
-    void StopGliding()
+    private void StopGliding()
     {
         isGliding = false;
-        audioSource.Stop(); // Stop audio when gliding ends
-        // Add any specific cleanup when gliding stops
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Dandelion"))
         {
-            Debug.Log("Dandelion collision detected");
-            canGlide = true; // Allow gliding when the player lands on a dandelion
-            // Start the glide animation when the player lands on a dandelion
-            //animator.SetBool("IsGliding", true);
-            isGlideAnimationPlaying = true;
+            UnityEngine.Debug.Log("Collision with dandelion");
+            canGlide = true;
         }
     }
 
-    void OnCollisionExit(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Dandelion"))
         {
-            Debug.Log("Left Dandelion");
-            canGlide = false; // Disallow gliding when the player leaves the dandelion
-            audioSource.Stop(); // Stop the microphone when leaving the dandelion
+            UnityEngine.Debug.Log("Collision ended with dandelion");
+            canGlide = false;
         }
     }
 }

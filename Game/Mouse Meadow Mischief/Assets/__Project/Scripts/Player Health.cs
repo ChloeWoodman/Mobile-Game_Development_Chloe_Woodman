@@ -20,7 +20,7 @@ public class PlayerHealth : MonoBehaviour
         currentLives--;
         UnityEngine.Debug.Log("Player took damage. Remaining lives: " + currentLives);
 
-        if (currentLives >= 0)
+        if (currentLives > 0)
         {
             UnityEngine.Debug.Log("Player lost a life. Current lives: " + currentLives);
             UpdateUI();
