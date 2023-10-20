@@ -27,6 +27,7 @@ Library: C:\Users\Peppe\Documents\GitHub\Mobile-Game_Development_Chloe_Woodman\G
 --assembly-defines=Unity.Subsystem.Registration;
 --assembly-defines=Unity.Mathematics;
 --assembly-defines=Unity.VisualScripting.State;
+--assembly-defines=Cinemachine;
 --assembly-defines=Unity.Notifications.Android;
 --assembly-defines=Unity.Collections.LowLevel.ILSupport;
 --assembly-defines=Unity.VisualScripting.Antlr3.Runtime;
