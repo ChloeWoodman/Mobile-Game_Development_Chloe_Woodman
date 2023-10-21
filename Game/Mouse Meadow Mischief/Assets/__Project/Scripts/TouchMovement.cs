@@ -3,24 +3,45 @@ using UnityEngine;
 public class TouchMovement : MonoBehaviour
 {
     public Joystick joystick;
-    public float runSpeed = 10.0f;
-    public float jumpForce = 20.0f; // Increased jump force
+    public float runSpeed = 50.0f;
+    public float jumpForce = 20.0f;
     private Rigidbody rb;
     private bool isJumping = false;
+    private bool isRunning = false;
+
+    private Animator animator; // Reference to the Animator component
 
     // Define the minimum and maximum allowed x and z positions
-    public float minX = -70f;
-    public float maxX = 170f;
-    public float minZ = -50f;
+    public float minX = -200f;
+    public float maxX = 300.0f;
+    public float minZ = -50.0f;
     public float maxZ = 1100f;
+
+    private static readonly string IsJumpingParam = "IsJumping";
+    private static readonly string IsRunningParam = "IsRunning";
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Prevent rigidbody from rotating
+        animator = GetComponent<Animator>();
     }
 
     void Update()
+    {
+        if (Input.GetButtonDown("Jump") && !isJumping)
+        {
+            Jump();
+        }
+
+        Movement();
+
+        // Update the animator parameters
+        animator.SetBool(IsJumpingParam, isJumping);
+        animator.SetBool(IsRunningParam, isRunning);
+    }
+
+    void Movement()
     {
         float horizontalInput = joystick.Horizontal;
         float verticalInput = joystick.Vertical;
@@ -46,10 +67,7 @@ public class TouchMovement : MonoBehaviour
 
         rb.velocity = targetVelocity;
 
-        if (Input.GetButtonDown("Jump") && !isJumping)
-        {
-            Jump();
-        }
+        isRunning = true; // You can update the isRunning variable here.
     }
 
     void OnCollisionEnter(Collision collision)
@@ -70,7 +88,8 @@ public class TouchMovement : MonoBehaviour
 
     public void Jump()
     {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange); // Use ForceMode.VelocityChange for a faster jump
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         isJumping = true;
+        animator.SetBool(IsJumpingParam, isJumping); // Update the animator parameter
     }
 }

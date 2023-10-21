@@ -5,13 +5,13 @@ public class AccelerometerInput : MonoBehaviour
     public float accelerometerSensitivity = 2000.0f; // Adjust this value to control sensitivity.
 
     private Rigidbody rb;
-    public float runSpeed = 10.0f;
+    public float runSpeed = 50.0f;
     public float jumpForce = 20.0f;
     private bool isJumping = false;
 
-    public float minX = -70f;
-    public float maxX = 170f;
-    public float minZ = -50f;
+    public float minX = -200f;
+    public float maxX = 300.0f;
+    public float minZ = -50.0f;
     public float maxZ = 1100f;
 
     void Start()
