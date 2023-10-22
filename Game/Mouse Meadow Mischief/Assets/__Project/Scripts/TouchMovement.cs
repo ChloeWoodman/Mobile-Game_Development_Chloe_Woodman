@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Collections;
 using UnityEngine;
 
 public class TouchMovement : MonoBehaviour
@@ -7,7 +9,6 @@ public class TouchMovement : MonoBehaviour
     public float jumpForce = 20.0f;
     private Rigidbody rb;
     private bool isJumping = false;
-    private bool isRunning = false;
 
     private Animator animator; // Reference to the Animator component
 
@@ -17,15 +18,15 @@ public class TouchMovement : MonoBehaviour
     public float minZ = -50.0f;
     public float maxZ = 1100f;
 
-    private static readonly string IsJumpingParam = "IsJumping";
-    private static readonly string IsRunningParam = "IsRunning";
-
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Prevent rigidbody from rotating
+
+        // Initialize the animator in the Start method
         animator = GetComponent<Animator>();
     }
+
 
     void Update()
     {
@@ -35,10 +36,6 @@ public class TouchMovement : MonoBehaviour
         }
 
         Movement();
-
-        // Update the animator parameters
-        animator.SetBool(IsJumpingParam, isJumping);
-        animator.SetBool(IsRunningParam, isRunning);
     }
 
     void Movement()
@@ -56,6 +53,10 @@ public class TouchMovement : MonoBehaviour
         Vector3 targetVelocity = movementDirection * runSpeed;
         targetVelocity.y = rb.velocity.y;
 
+        // Check if movement is detected and set the "isRunning" parameter accordingly
+        bool isMoving = movementDirection.magnitude > 0;
+        animator.SetBool("isRunning", isMoving);
+
         // Apply the x-axis restriction
         float newPosX = Mathf.Clamp(transform.position.x + targetVelocity.x * Time.fixedDeltaTime, minX, maxX);
 
@@ -66,8 +67,6 @@ public class TouchMovement : MonoBehaviour
         transform.position = new Vector3(newPosX, transform.position.y, newPosZ);
 
         rb.velocity = targetVelocity;
-
-        isRunning = true; // You can update the isRunning variable here.
     }
 
     void OnCollisionEnter(Collision collision)
@@ -75,6 +74,7 @@ public class TouchMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+            animator.SetBool("isJumping", false);
         }
     }
 
@@ -83,13 +83,23 @@ public class TouchMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = true;
+            animator.SetBool("isJumping", true);
         }
     }
 
     public void Jump()
     {
+        animator.SetBool("isJumping", true); // Set the isJumping parameter to true
         rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         isJumping = true;
-        animator.SetBool(IsJumpingParam, isJumping); // Update the animator parameter
+
+        // Add a coroutine to reset the jump animation parameter
+        StartCoroutine(ResetJumpAnimation());
+    }
+
+    private IEnumerator ResetJumpAnimation()
+    {
+        yield return new WaitForSeconds(2.0f); // Adjust the delay as needed
+        animator.SetBool("isJumping", false); // Reset the jump animation parameter
     }
 }

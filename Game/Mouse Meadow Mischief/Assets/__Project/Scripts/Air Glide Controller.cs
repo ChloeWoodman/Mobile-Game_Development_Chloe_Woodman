@@ -9,12 +9,17 @@ public class AirGlideController : MonoBehaviour
 
     private Rigidbody rb;
     private MicrophoneManager microphoneManager;
-    private bool isGliding = false;
     private bool canGlide = false;
     private AudioSource audioSource;
     private float[] audioData = new float[128]; // Adjust the array size as needed
+
+    private Animator animator; // Reference to the Animator component
+    private bool isGliding = false;
+
     private void Start()
     {
+        animator = GetComponent<Animator>();
+
         rb = GetComponent <Rigidbody>();
         rb.freezeRotation = true;
 
@@ -77,11 +82,13 @@ public class AirGlideController : MonoBehaviour
     void StartGliding()
     {
         isGliding = true;
+        animator.SetBool("isGliding", true);
     }
 
     private void StopGliding()
     {
         isGliding = false;
+        animator.SetBool("isGliding", false);
     }
 
     private void OnCollisionEnter(Collision collision)
