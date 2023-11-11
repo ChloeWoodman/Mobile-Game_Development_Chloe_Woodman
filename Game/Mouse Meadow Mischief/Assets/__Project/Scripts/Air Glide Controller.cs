@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class AirGlideController : MonoBehaviour
@@ -9,36 +10,34 @@ public class AirGlideController : MonoBehaviour
 
     private Rigidbody rb;
     private MicrophoneManager microphoneManager;
-    private bool canGlide = false;
-    private AudioSource audioSource;
-    private float[] audioData = new float[128]; // Adjust the array size as needed
+    private bool canGlide = true; // Set this to true for testing without collision
+    private float[] audioData; // Adjust the array size as needed
 
-    private Animator animator; // Reference to the Animator component
+    private Animator animator;
     private bool isGliding = false;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-
-        rb = GetComponent <Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
         microphoneManager = FindObjectOfType<MicrophoneManager>();
         microphoneManager.RequestMicrophonePermission();
 
-        // Create an AudioSource if you don't have one already
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = Microphone.Start(null, true, 1, AudioSettings.outputSampleRate);
-        audioSource.loop = true;
+        audioData = new float[256]; // Adjust the array size as needed
 
         while (!(Microphone.GetPosition(null) > 0))
         {
-            audioSource.Play();
+            // Wait for the microphone to initialize
         }
     }
+
     private void Update()
     {
-        float microphoneInputLevel = microphoneManager.GetMicrophoneInputLevel(audioSource, audioData);
+        float microphoneInputLevel = microphoneManager.GetMicrophoneInputLevel();
+
+        Debug.Log("Microphone Input Level: " + microphoneInputLevel);
 
         if (microphoneInputLevel > blowThreshold && canGlide)
         {
@@ -95,7 +94,8 @@ public class AirGlideController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Dandelion"))
         {
-            UnityEngine.Debug.Log("Collision prepare to glide"); canGlide = true;
+            Debug.Log("Collision prepare to glide");
+            canGlide = true;
         }
     }
 
@@ -103,7 +103,8 @@ public class AirGlideController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Dandelion"))
         {
-            UnityEngine.Debug.Log("Collision ended glide until ground"); canGlide = false;
+            Debug.Log("Collision ended glide until ground");
+            canGlide = false;
         }
     }
 }

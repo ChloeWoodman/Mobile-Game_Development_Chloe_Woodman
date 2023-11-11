@@ -10,6 +10,8 @@ public class TouchMovement : MonoBehaviour
     private Rigidbody rb;
     private bool isJumping = false;
 
+    private float sensitivity = 1.0f; // Sensitivity setting
+
     private Animator animator; // Reference to the Animator component
 
     // Define the minimum and maximum allowed x and z positions
@@ -38,10 +40,19 @@ public class TouchMovement : MonoBehaviour
         Movement();
     }
 
+    public void SetSensitivity(float newSensitivity)
+    {
+        sensitivity = newSensitivity;
+    }
+
     void Movement()
     {
         float horizontalInput = joystick.Horizontal;
         float verticalInput = joystick.Vertical;
+
+        // Adjust input using sensitivity
+        horizontalInput *= sensitivity;
+        verticalInput *= sensitivity;
 
         Vector3 cameraForward = Camera.main.transform.forward; // Use the camera's forward direction
         Vector3 cameraRight = Camera.main.transform.right;
