@@ -1,110 +1,139 @@
-using UnityEditor.PackageManager;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 public class AirGlideController : MonoBehaviour
 {
     public float glidingSpeed = 5.0f;
     public float tiltSpeed = 2.0f;
     public float blowThreshold = 0.1f;
     public float glideHeight = 2.0f;
+    public string groundTag = "Ground"; // Tag for the ground object
 
     private Rigidbody rb;
-    private MicrophoneManager microphoneManager;
-    private bool canGlide = true; // Set this to true for testing without collision
-    private float[] audioData; // Adjust the array size as needed
-
-    private Animator animator;
+    private AudioSource audioSource;
     private bool isGliding = false;
+    private float[] audioData;
+    private bool isMicInitialized = false;
 
-    private void Start()
+    void Start()
     {
-        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
-        microphoneManager = FindObjectOfType<MicrophoneManager>();
-        microphoneManager.RequestMicrophonePermission();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.loop = true;
+        audioSource.mute = true;
 
-        audioData = new float[256]; // Adjust the array size as needed
+        audioData = new float[256];
+    }
 
-        while (!(Microphone.GetPosition(null) > 0))
+    void Update()
+    {
+        if (isMicInitialized)
         {
-            // Wait for the microphone to initialize
+            ProcessMicrophoneInput();
+            HandleGliding();
+            HandleTilting();
         }
     }
 
-    private void Update()
+    void OnCollisionEnter(Collision collision)
     {
-        float microphoneInputLevel = microphoneManager.GetMicrophoneInputLevel();
-
-        Debug.Log("Microphone Input Level: " + microphoneInputLevel);
-
-        if (microphoneInputLevel > blowThreshold && canGlide)
+        if (collision.gameObject.CompareTag("Dandelion") && !isGliding)
         {
-            StartGliding();
+            Debug.Log("Collided with dandelion, blow into mic");
+            StartMicrophone();
         }
-        else if (microphoneInputLevel <= blowThreshold && isGliding)
+        else if (collision.gameObject.CompareTag(groundTag))
         {
+            Debug.Log("Collided with ground, stopping glide");
             StopGliding();
         }
+    }
 
-        // Tilt the glider based on accelerometer input
-        Vector3 tilt = Input.acceleration;
-        tilt = Quaternion.Euler(0, 0, -90) * tilt;
-        rb.AddTorque(tilt * tiltSpeed);
-
-        if (canGlide)
+    void StartMicrophone()
+    {
+        if (!isMicInitialized)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit))
+            Debug.Log("Attempting to start microphone");
+            audioSource.clip = Microphone.Start(null, true, 10, 48000);
+            int waitTime = 0;
+            while (!(Microphone.GetPosition(null) > 0))
             {
-                float heightAboveGround = transform.position.y - hit.point.y;
-                if (heightAboveGround < glideHeight && !isGliding)
+                waitTime++;
+                if (waitTime > 500) // 500 is an arbitrary number of loops. Adjust as needed.
                 {
-                    canGlide = false;
+                    Debug.LogError("Microphone not initializing");
+                    return;
                 }
             }
+            audioSource.Play();
+            isMicInitialized = true;
+            Debug.Log("Microphone started successfully");
+        }
+    }
+
+    void ProcessMicrophoneInput()
+    {
+        audioSource.GetOutputData(audioData, 0);
+        float levelSum = 0f;
+
+        foreach (var sample in audioData)
+        {
+            levelSum += Mathf.Abs(sample);
         }
 
+        float avgLevel = levelSum / audioData.Length;
+        Debug.Log("Average microphone level: " + avgLevel);
+        if (avgLevel > blowThreshold && !isGliding && IsAboveGround())
+        {
+            Debug.Log("Noise is loud enough, beginning glide");
+            StartGliding();
+        }
+    }
+
+    bool IsAboveGround()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit))
+        {
+            return (transform.position.y - hit.point.y) < glideHeight;
+        }
+        return false;
+    }
+
+    void HandleGliding()
+    {
         if (isGliding)
         {
-            tilt = Input.acceleration;
+            Vector3 forwardMovement = transform.forward * glidingSpeed;
+            rb.AddForce(forwardMovement, ForceMode.Acceleration);
+        }
+    }
+
+    void HandleTilting()
+    {
+        if (isGliding)
+        {
+            Vector3 tilt = Input.acceleration;
             tilt = Quaternion.Euler(0, 0, -90) * tilt;
-
-            float adjustedSpeed = glidingSpeed * (1.0f + microphoneInputLevel);
-
             rb.AddTorque(tilt * tiltSpeed);
-            rb.AddForce(transform.forward * adjustedSpeed);
         }
     }
 
     void StartGliding()
     {
         isGliding = true;
-        animator.SetBool("isGliding", true);
+        // Add any animations or effects for starting the glide
     }
 
-    private void StopGliding()
+    void StopGliding()
     {
         isGliding = false;
-        animator.SetBool("isGliding", false);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Dandelion"))
-        {
-            Debug.Log("Collision prepare to glide");
-            canGlide = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Dandelion"))
-        {
-            Debug.Log("Collision ended glide until ground");
-            canGlide = false;
-        }
+        isMicInitialized = false; // Reset microphone initialization
+        audioSource.Stop(); // Stop the microphone
+        Microphone.End(null); // End microphone recording
+        // Add any animations or effects for stopping the glide
     }
 }

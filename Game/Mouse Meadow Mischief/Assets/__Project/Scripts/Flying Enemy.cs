@@ -49,6 +49,9 @@ public class FlyingEnemy : MonoBehaviour
                 {
                     playerHealth.TakeDamage(damageAmount);
                     UnityEngine.Debug.Log("Collision");
+
+                    // Destroy the enemy object after damaging the player
+                    DestroyEnemy();
                 }
             }
         }

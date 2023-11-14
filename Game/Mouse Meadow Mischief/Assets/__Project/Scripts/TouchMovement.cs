@@ -9,6 +9,8 @@ public class TouchMovement : MonoBehaviour
     public float jumpForce = 20.0f;
     private Rigidbody rb;
     private bool isJumping = false;
+    private int jumpCount = 0; // Variable to track number of jumps
+    private const int maxJumps = 2; // Maximum number of jumps
 
     private float sensitivity = 1.0f; // Sensitivity setting
 
@@ -25,14 +27,13 @@ public class TouchMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Prevent rigidbody from rotating
 
-        // Initialize the animator in the Start method
+        // Initialize the animator in the Awake method
         animator = GetComponent<Animator>();
     }
 
-
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && !isJumping)
+        if (Input.GetButtonDown("Jump") && (jumpCount < maxJumps))
         {
             Jump();
         }
@@ -85,26 +86,23 @@ public class TouchMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+            jumpCount = 0; // Reset jump count when touching the ground
             animator.SetBool("isJumping", false);
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = true;
-            animator.SetBool("isJumping", true);
         }
     }
 
     public void Jump()
     {
-        animator.SetBool("isJumping", true); // Set the isJumping parameter to true
+        if (jumpCount >= maxJumps)
+        {
+            return; // Prevent jumping if the max number of jumps has been reached
+        }
+
+        animator.SetBool("isJumping", true);
         rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         isJumping = true;
+        jumpCount++; // Increment jump count each time the player jumps
 
-        // Add a coroutine to reset the jump animation parameter
         StartCoroutine(ResetJumpAnimation());
     }
 

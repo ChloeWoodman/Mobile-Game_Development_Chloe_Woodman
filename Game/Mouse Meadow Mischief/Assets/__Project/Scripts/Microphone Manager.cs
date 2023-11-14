@@ -22,8 +22,6 @@ public class MicrophoneManager : MonoBehaviour
             Debug.Log("Selected Microphone: " + selectedMicrophone);
 
             audioSource.clip = Microphone.Start(selectedMicrophone, true, 10, sampleRate);
-            audioSource.loop = true;
-            audioSource.mute = true;
 
             while (Microphone.GetPosition(selectedMicrophone) <= 0) { }
             audioSource.Play();
