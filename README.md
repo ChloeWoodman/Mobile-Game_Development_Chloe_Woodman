@@ -53,3 +53,5 @@ Unity's Universal Render Pipeline (URP) is another framework I am implementing d
 # Mobile features
 As I will have a dandelion mechanic that can blow its seeds and the player can attach to until they reach the ground, I have decided to implement my mobile features inside of its gliding mechanic to ensure it is still relevant to the game; I have microphone input to begin the gliding state, and then use the mobile accelerometer to tilt the mouse, so the player can glide around more naturally.
 
+## Implemented framework with features
+URPRender assets for optimized mobile use, low, medium, and high. Occlusion culling for higher quality. physically based rendering (PBR) that will simulate the interactions of light with materials so materials, textures, and lights are more realistic
