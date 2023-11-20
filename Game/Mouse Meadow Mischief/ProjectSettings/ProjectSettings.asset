@@ -145,7 +145,7 @@ PlayerSettings:
   isWsaHolographicRemotingEnabled: 0
   enableFrameTimingStats: 0
   enableOpenGLProfilerGPURecorders: 1
-  useHDRDisplay: 0
+  useHDRDisplay: 1
   hdrBitDepth: 0
   m_ColorGamuts: 00000000
   targetPixelDensity: 30
@@ -929,7 +929,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: c47a8f07-0bb3-4f06-8421-1a5aa59ce85c
   framebufferDepthMemorylessMode: 0

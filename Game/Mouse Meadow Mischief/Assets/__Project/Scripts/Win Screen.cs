@@ -24,12 +24,12 @@ public class WinScreen : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
     }
 
     public void MainMenuReturn()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 3);
     }
 
     void SaveScore(int newScore)
