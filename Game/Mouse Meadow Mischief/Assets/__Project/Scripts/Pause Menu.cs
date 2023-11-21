@@ -23,15 +23,9 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f; // This freezes the game.
     }
 
-    // Function to open options (you can customize this)
-    public void OpenSettings()
-    {
-        // Add code to handle options here
-    }
-
     // Function to exit the game (this will return to the main menu)
     public void ExitGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
     }
 }
