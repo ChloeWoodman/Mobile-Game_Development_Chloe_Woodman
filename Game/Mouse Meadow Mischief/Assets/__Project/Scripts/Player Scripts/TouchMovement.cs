@@ -59,8 +59,22 @@ public class TouchMovement : MonoBehaviour
         Vector3 cameraForward = Camera.main.transform.forward;
         Vector3 cameraRight = Camera.main.transform.right;
 
+        // Calculate movement direction
         Vector3 movementDirection = cameraForward * verticalInput + cameraRight * horizontalInput;
         movementDirection.Normalize();
+
+        // Check if there is significant movement to update rotation
+        if (movementDirection.magnitude > 0.1f)
+        {
+            // Create a rotation looking in the direction of movement
+            Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
+
+            // Increase the rotation speed multiplier for quicker rotation
+            float rotationSpeed = sensitivity * 5.0f; // Adjust this value as needed
+
+            // Smoothly rotate the player towards the target rotation more quickly
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
 
         // Calculate the target velocity based on the input
         Vector3 targetVelocity = movementDirection * runSpeed;
@@ -87,7 +101,20 @@ public class TouchMovement : MonoBehaviour
             isJumping = false;
             jumpCount = 0; // Reset jump count when touching the ground
             animator.SetBool("isJumping", false);
+
+            // Check if the collided object is a mushroom
+            if (collision.gameObject.name.Contains("Mushroom"))
+            {
+                jumpForce *= 10; // Multiply jump force by 10
+                StartCoroutine(ResetJumpForce()); // Start coroutine to reset jump force
+            }
         }
+    }
+
+    private IEnumerator ResetJumpForce()
+    {
+        yield return new WaitForSeconds(2.0f); // Adjust the delay as needed
+        jumpForce /= 10; // Reset the jump force back to original
     }
 
     public void Jump()
