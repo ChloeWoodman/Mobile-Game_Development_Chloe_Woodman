@@ -1089,7 +1089,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
       propertyPath: m_Name
-      value: Mushroom (4)
+      value: Mushroom
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
       propertyPath: m_TagString
@@ -1949,7 +1949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
       propertyPath: m_Name
-      value: Plant (3)
+      value: Plant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
       propertyPath: m_TagString
@@ -2327,6 +2327,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7343275056427110438, guid: 7e5f23080265e764d985b0d13acd8647, type: 3}
+--- !u!1 &252889010 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
+  m_PrefabInstance: {fileID: 1110513948}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &256574876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3096,6 +3101,11 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &295728156 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
+  m_PrefabInstance: {fileID: 1359570605}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &297054399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3603,6 +3613,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1109633982}
   m_SourcePrefab: {fileID: 100100000, guid: 7e5f23080265e764d985b0d13acd8647, type: 3}
+--- !u!1 &331770610 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
+  m_PrefabInstance: {fileID: 212043984}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &335994810
 GameObject:
   m_ObjectHideFlags: 0
@@ -3902,6 +3917,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7343275056427110438, guid: 7e5f23080265e764d985b0d13acd8647, type: 3}
+--- !u!1 &387929819 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
+  m_PrefabInstance: {fileID: 1797993173}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &388311166 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7e5f23080265e764d985b0d13acd8647, type: 3}
@@ -5207,7 +5227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
       propertyPath: m_Name
-      value: Mushroom (1)
+      value: Mushroom
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
       propertyPath: m_TagString
@@ -5674,7 +5694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
       propertyPath: m_Name
-      value: Plant (2)
+      value: Plant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
       propertyPath: m_TagString
@@ -9702,6 +9722,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1433808124}
   m_SourcePrefab: {fileID: 100100000, guid: 7e5f23080265e764d985b0d13acd8647, type: 3}
+--- !u!1 &1072564847 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
+  m_PrefabInstance: {fileID: 591982130}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1074299801
 GameObject:
   m_ObjectHideFlags: 0
@@ -9778,6 +9803,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074299801}
   m_CullTransparentMesh: 1
+--- !u!1 &1080035661 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
+  m_PrefabInstance: {fileID: 653022742}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1093799465 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9006362064819531208, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
@@ -10212,7 +10242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
       propertyPath: m_Name
-      value: Plant (1)
+      value: Plant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
       propertyPath: m_TagString
@@ -12501,7 +12531,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
       propertyPath: m_Name
-      value: Mushroom (3)
+      value: Mushroom
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
       propertyPath: m_TagString
@@ -15768,6 +15798,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 582898986}
   m_SourcePrefab: {fileID: 100100000, guid: 7e5f23080265e764d985b0d13acd8647, type: 3}
+--- !u!1 &1649867949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
+  m_PrefabInstance: {fileID: 1883119700}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1652018856
 GameObject:
   m_ObjectHideFlags: 0
@@ -17332,7 +17367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
       propertyPath: m_Name
-      value: Mushroom (2)
+      value: Mushroom
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
       propertyPath: m_TagString
@@ -18306,6 +18341,11 @@ Transform:
   m_Father: {fileID: 1510854288}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1867781681 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
+  m_PrefabInstance: {fileID: 112849923}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1871605280
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18500,6 +18540,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1026262880}
   m_SourcePrefab: {fileID: 100100000, guid: ab3c0f9ecbbf64e4fb4e27b0f8379ddd, type: 3}
+--- !u!1 &1891919421 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8feb491a19d682b48b3b396c3fd54c9b, type: 3}
+  m_PrefabInstance: {fileID: 1779961780}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1893601135 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7e5f23080265e764d985b0d13acd8647, type: 3}
@@ -20497,6 +20542,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.41
       objectReference: {fileID: 0}
+    - target: {fileID: 5345534757652847737, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: maxX
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5345534757652847737, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: maxZ
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5345534757652847737, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: minX
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5345534757652847737, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: minZ
+      value: -4
+      objectReference: {fileID: 0}
     - target: {fileID: 6877070985450477737, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -20537,6 +20598,50 @@ PrefabInstance:
       propertyPath: rotationSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: mushroomObjects.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: climbableObjects.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: mushroomObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1891919421}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: mushroomObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1072564847}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: mushroomObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 387929819}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: mushroomObjects.Array.data[3]
+      value: 
+      objectReference: {fileID: 295728156}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: mushroomObjects.Array.data[4]
+      value: 
+      objectReference: {fileID: 1867781681}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: climbableObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 331770610}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: climbableObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1080035661}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: climbableObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 252889010}
+    - target: {fileID: 7114775140163238854, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
+      propertyPath: climbableObjects.Array.data[3]
+      value: 
+      objectReference: {fileID: 1649867949}
     - target: {fileID: 7884874421141936066, guid: 08de26d421991f1469e32ea9273efd83, type: 3}
       propertyPath: m_Interpolate
       value: 1

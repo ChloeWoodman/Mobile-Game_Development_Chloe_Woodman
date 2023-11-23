@@ -3,11 +3,16 @@ using UnityEngine;
 
 public class TouchMovement : MonoBehaviour
 {
+    public GameObject[] climbableObjects;
+    public GameObject[] mushroomObjects;
+
     public Joystick joystick;
     public float runSpeed = 50.0f;
     public float jumpForce = 20.0f;
+    public float climbSpeed = 5.0f; // Speed of climbing
     private Rigidbody rb;
     private bool isJumping = false;
+    private bool isClimbing = false; // Flag to check if the player is climbing
     private int jumpCount = 0; // Variable to track number of jumps
     private const int maxJumps = 2; // Maximum number of jumps
 
@@ -27,14 +32,30 @@ public class TouchMovement : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(0.1f); // Small delay to ensure OptionsMenu is initialized
+        if (OptionsMenu.Instance != null)
+        {
+            SetSensitivity(OptionsMenu.Instance.GetCurrentSensitivity());
+        }
+    }
+
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && (jumpCount < maxJumps))
+        if (!isClimbing)
         {
-            Jump();
-        }
+            if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
+            {
+                Jump();
+            }
 
-        Movement();
+            Movement();
+        }
+        else
+        {
+            Climb();
+        }
     }
 
     public void SetSensitivity(float newSensitivity)
@@ -102,19 +123,50 @@ public class TouchMovement : MonoBehaviour
             jumpCount = 0; // Reset jump count when touching the ground
             animator.SetBool("isJumping", false);
 
-            // Check if the collided object is a mushroom
-            if (collision.gameObject.name.Contains("Mushroom"))
+
+            foreach (var mushroomObject in mushroomObjects)
             {
-                jumpForce *= 10; // Multiply jump force by 10
-                StartCoroutine(ResetJumpForce()); // Start coroutine to reset jump force
+                // Check if the collided object is a mushroom
+                if (collision.gameObject == mushroomObject)
+                {
+                    jumpForce *= 10; // Multiply jump force by 10
+                    StartCoroutine(ResetJumpForce()); // Start coroutine to reset jump force
+                }
+            }
+        }
+
+        Debug.Log("Collision detected with: " + collision.gameObject.name);
+
+        foreach (var climbableObject in climbableObjects)
+        {
+            if (collision.gameObject == climbableObject)
+            {
+                isClimbing = true;
+                rb.useGravity = false;
+                break;
             }
         }
     }
 
-    private IEnumerator ResetJumpForce()
+    void OnCollisionExit(Collision collision)
     {
-        yield return new WaitForSeconds(2.0f); // Adjust the delay as needed
-        jumpForce /= 10; // Reset the jump force back to original
+        if (collision.gameObject.name.Contains("Plant"))
+        {
+            isClimbing = false;
+            rb.useGravity = true;
+        }
+    }
+
+    void Climb()
+    {
+        Debug.Log("Climbing method called. Joystick Vertical value: " + joystick.Vertical);
+        float climbInput = joystick.Vertical; // Replace with your input method
+        if (Mathf.Abs(climbInput) > 0.1f)
+        {
+            // Use Rigidbody to move for consistent physics interaction
+            Vector3 climbMovement = Vector3.up * climbSpeed * climbInput * Time.deltaTime;
+            rb.MovePosition(rb.position + climbMovement);
+        }
     }
 
     public void Jump()
@@ -138,12 +190,9 @@ public class TouchMovement : MonoBehaviour
         animator.SetBool("isJumping", false); // Reset the jump animation parameter
     }
 
-    IEnumerator Start()
+    private IEnumerator ResetJumpForce()
     {
-        yield return new WaitForSeconds(0.1f); // Small delay to ensure OptionsMenu is initialized
-        if (OptionsMenu.Instance != null)
-        {
-            SetSensitivity(OptionsMenu.Instance.GetCurrentSensitivity());
-        }
+        yield return new WaitForSeconds(2.0f); // Adjust the delay as needed
+        jumpForce /= 10; // Reset the jump force back to original
     }
 }
