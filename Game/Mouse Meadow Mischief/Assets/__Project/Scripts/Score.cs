@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class Score : MonoBehaviour
@@ -10,18 +9,19 @@ public class Score : MonoBehaviour
     public int startingPoints = 1000;
     public int decreaseRate = 10; // Points decrease per second
     public int goalPoints = 0; // The goal points you want to reach
-
+    public Canvas gameOverCanvas;
+    public Canvas currentGameplayCanvas;
     private static int currentPoints; // Make the score variable static
     private List<int> oldScores = new List<int>(); // Store old scores
 
     void Start()
     {
+        currentPoints = startingPoints; // Reset current points to starting value
         LoadOldScores();
-        currentPoints = startingPoints;
         UpdateScoreText();
-        //UpdateOldScoreText();
-
-        // Call a method to start decreasing points over time
+        // If there's a paused decrease points coroutine, make sure to stop it
+        CancelInvoke("DecreasePointsOverTime");
+        // Start decreasing points over time again
         InvokeRepeating("DecreasePointsOverTime", 1f, 1f);
     }
 
@@ -30,26 +30,24 @@ public class Score : MonoBehaviour
         currentPoints -= decreaseRate;
         UpdateScoreText();
 
+        // Continuously check player's health
+        if (PlayerHealth.GetCurrentLives() <= 0)
+        {
+            // Player's health is 0, move to the game over scene
+            gameOverCanvas.gameObject.SetActive(true);
+            currentGameplayCanvas.gameObject.SetActive(false);
+            Time.timeScale = 0; // Pause the game
+            CancelInvoke("DecreasePointsOverTime"); // Stop decreasing points
+            return;
+        }
+
         if (currentPoints <= goalPoints)
         {
-            // You've reached the goal! Save the score and add it to the old scores list.
+            // Points have reached the goal
             oldScores.Add(currentPoints);
             SaveOldScores();
             PlayerPrefs.SetInt("Score", currentPoints);
             PlayerPrefs.Save();
-
-            // Check if the player's health is also 0 before transitioning to the game over scene
-            if (PlayerHealth.GetCurrentLives() <= 0)
-            {
-                // Player's health is 0, move to the game over scene
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
-            }
-        }
-
-        // Add this block to change the scene when currentPoints reaches 0
-        if (currentPoints <= 0)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
         }
     }
 
@@ -58,17 +56,6 @@ public class Score : MonoBehaviour
         scoreText.text = "Points: " + currentPoints.ToString();
     }
 
-    //void UpdateOldScoreText()
-    //{
-    //    string oldScoreString = "Old Scores: ";
-    //    foreach (int score in oldScores)
-    //    {
-    //        oldScoreString += score + " ";
-    //    }
-    //    oldScoreText.text = oldScoreString;
-    //}
-
-    // Add a static method to access the currentPoints value
     public static int GetCurrentPoints()
     {
         return currentPoints;

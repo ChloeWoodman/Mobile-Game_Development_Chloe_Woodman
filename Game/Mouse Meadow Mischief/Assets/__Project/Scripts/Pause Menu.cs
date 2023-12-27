@@ -7,8 +7,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        // Make sure the pause menu is not visible at the start.
-        //pauseMenuUICanvas.SetActive(false);
+        
     }
 
     public void ResumeGame()
@@ -21,11 +20,5 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUICanvas.SetActive(true);
         Time.timeScale = 0f; // This freezes the game.
-    }
-
-    // Function to exit the game (this will return to the main menu)
-    public void ExitGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
     }
 }

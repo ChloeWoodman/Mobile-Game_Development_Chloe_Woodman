@@ -9,17 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScene.unity
     guid: 656529e38f76bd7419afb171ecd21172
   - enabled: 1
-    path: Assets/Scenes/Loading Scene.unity
-    guid: 97905086ca70a4f46b19216687b8b4a3
-  - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: 8178d5416737b5b4089a2cc23349f28e
   - enabled: 1
-    path: Assets/Scenes/WinScene.unity
-    guid: cfcafeaf880c3df43a8e271659e2c4db
+    path: Assets/Scenes/Level 2.unity
+    guid: 9dddf84971f40a242aa8eb848f7cf594
   - enabled: 1
-    path: Assets/Scenes/GameOverScene.unity
-    guid: 2e4b8cc309ca5de47ad3347b9b8c9cdb
+    path: Assets/Scenes/Level 3.unity
+    guid: 69fbf0ffc5c1abf41aad8e7f558fefd0
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: be707e3d360c74d40965ca238c6e53ba
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 18cd2b6ee2370e344894db24111f90eb, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 9ab9c0362d7273c4a9e1e8306b2b763b, type: 2}

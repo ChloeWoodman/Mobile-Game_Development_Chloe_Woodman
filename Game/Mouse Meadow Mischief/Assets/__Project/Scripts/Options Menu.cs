@@ -7,14 +7,13 @@ using UnityEngine.Rendering;
 public class OptionsMenu : MonoBehaviour
 {
     public Slider sensitivitySlider;
-    public TMP_Dropdown qualityDropdown; // Dropdown for graphics quality
-    public Slider volumeSlider; // Slider for volume control
+    public TMP_Dropdown qualityDropdown; 
+    public Slider volumeSlider;
 
     private string sensitivityKey = "TouchSensitivity";
     private string graphicsQualityKey = "GraphicsQuality";
     private string volumeKey = "Volume";
 
-    // Removed the TouchMovement reference
 
     public RenderPipelineAsset[] qualityLevels; // Array of URP quality settings
 
@@ -25,7 +24,6 @@ public class OptionsMenu : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Optional, only if you want to persist across scenes
         }
         else
         {
@@ -48,7 +46,6 @@ public class OptionsMenu : MonoBehaviour
     private void InitializeTouchSensitivity()
     {
         sensitivitySlider.value = PlayerPrefs.GetFloat(sensitivityKey, 1.0f); // Default to 1.0f if not set
-        // Removed the direct sensitivity application
     }
 
     private void InitializeGraphicsQuality()
@@ -94,10 +91,5 @@ public class OptionsMenu : MonoBehaviour
         float volume = volumeSlider.value;
         AudioListener.volume = volume;
         PlayerPrefs.SetFloat(volumeKey, volume);
-    }
-
-    public void LoadGameScene()
-    {
-        SceneManager.LoadScene("GameScene"); // Replace "GameScene" with your actual game scene name
     }
 }

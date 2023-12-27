@@ -16,6 +16,8 @@ public class TouchMovement : MonoBehaviour
     private int jumpCount = 0; // Variable to track number of jumps
     private const int maxJumps = 2; // Maximum number of jumps
 
+    public float gyroSensitivity = 100.0f;
+
     private float sensitivity = 1.0f; // Sensitivity setting
     private Animator animator; // Reference to the Animator component
 
@@ -30,6 +32,10 @@ public class TouchMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Prevent rigidbody from rotating
         animator = GetComponent<Animator>();
+        if (SystemInfo.supportsGyroscope)
+        {
+            Input.gyro.enabled = true;
+        }
     }
 
     IEnumerator Start()
@@ -41,7 +47,7 @@ public class TouchMovement : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!isClimbing)
         {
@@ -58,6 +64,11 @@ public class TouchMovement : MonoBehaviour
         }
     }
 
+    private static Quaternion GyroToUnity(Quaternion q)
+    {
+        return new Quaternion(q.x, q.z, q.y, -q.w);
+    }
+
     public void SetSensitivity(float newSensitivity)
     {
         sensitivity = newSensitivity;
@@ -65,54 +76,28 @@ public class TouchMovement : MonoBehaviour
 
     void Movement()
     {
-        if (OptionsMenu.Instance != null)
-        {
-            sensitivity = OptionsMenu.Instance.GetCurrentSensitivity();
-        }
+        float horizontalInput = joystick.Horizontal * sensitivity;
+        float verticalInput = joystick.Vertical * sensitivity;
 
-        float horizontalInput = joystick.Horizontal;
-        float verticalInput = joystick.Vertical;
-
-        // Adjust input using sensitivity
-        horizontalInput *= sensitivity;
-        verticalInput *= sensitivity;
-
-        Vector3 cameraForward = Camera.main.transform.forward;
-        Vector3 cameraRight = Camera.main.transform.right;
-
-        // Calculate movement direction
-        Vector3 movementDirection = cameraForward * verticalInput + cameraRight * horizontalInput;
-        movementDirection.Normalize();
-
-        // Check if there is significant movement to update rotation
+        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
         if (movementDirection.magnitude > 0.1f)
         {
-            // Create a rotation looking in the direction of movement
-            Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
+            movementDirection.Normalize();
 
-            // Increase the rotation speed multiplier for quicker rotation
-            float rotationSpeed = sensitivity * 5.0f; // Adjust this value as needed
+            // Use gyroscope data for rotation
+            Quaternion gyroRotation = GyroToUnity(Input.gyro.attitude);
+            transform.rotation = Quaternion.Slerp(transform.rotation, gyroRotation, Time.deltaTime * gyroSensitivity); // Use a variable for gyro sensitivity
 
-            // Smoothly rotate the player towards the target rotation more quickly
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            // Directly set the velocity for more responsive control
+            Vector3 velocity = movementDirection * runSpeed;
+            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
+        }
+        else
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
         }
 
-        // Calculate the target velocity based on the input
-        Vector3 targetVelocity = movementDirection * runSpeed;
-        targetVelocity.y = rb.velocity.y;
-
-        // Check if movement is detected and set the "isRunning" parameter accordingly
-        bool isMoving = movementDirection.magnitude > 0;
-        animator.SetBool("isRunning", isMoving);
-
-        // Apply the x-axis and z-axis restrictions
-        float newPosX = Mathf.Clamp(transform.position.x + targetVelocity.x * Time.fixedDeltaTime, minX, maxX);
-        float newPosZ = Mathf.Clamp(transform.position.z + targetVelocity.z * Time.fixedDeltaTime, minZ, maxZ);
-
-        // Set the x and z positions within the allowed ranges
-        transform.position = new Vector3(newPosX, transform.position.y, newPosZ);
-
-        rb.velocity = targetVelocity;
+        animator.SetBool("isRunning", movementDirection.magnitude > 0.1f);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -123,6 +108,8 @@ public class TouchMovement : MonoBehaviour
             jumpCount = 0; // Reset jump count when touching the ground
             animator.SetBool("isJumping", false);
 
+            // Reset Gyroscope Orientation
+            ResetGyroOrientation();
 
             foreach (var mushroomObject in mushroomObjects)
             {
@@ -155,6 +142,13 @@ public class TouchMovement : MonoBehaviour
             isClimbing = false;
             rb.useGravity = true;
         }
+    }
+
+    void ResetGyroOrientation()
+    {
+        // Reset the player's rotation to a default orientation
+        // This can be adjusted based on your game's default orientation
+        transform.rotation = Quaternion.identity;
     }
 
     void Climb()

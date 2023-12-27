@@ -1,18 +1,25 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class GoalScript : MonoBehaviour
+public class Goal : MonoBehaviour
 {
-    // Define the name of the scene to load when the player wins.
-    public string winSceneName = "WinScene";
+    public Canvas winCanvas;
+    public Canvas currentGameplayCanvas;
+
+    void Start()
+    {
+        winCanvas.gameObject.SetActive(false);
+    }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             UnityEngine.Debug.Log("You win");
-            // Add your win condition logic here.
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            // Show the win canvas and pause the game
+            winCanvas.gameObject.SetActive(true);
+            currentGameplayCanvas.gameObject.SetActive(false);
+            Time.timeScale = 0; // Pause the game
         }
     }
 }

@@ -1,30 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxLives = 3; // Maximum lives of the player
-    private static int currentLives; // Current lives of the player
+    public int maxLives = 3;
+    private static int currentLives; 
     public Image[] heartImages; // An array of UI images representing the hearts
-    public CameraShake cameraShake; // Reference to the CameraShake script
+    public Canvas gameOverCanvas; 
+    public Canvas currentGameplayCanvas; 
 
     void Start()
     {
-        currentLives = maxLives; // Initialize current lives to max lives
+        currentLives = maxLives;
         UpdateUI();
+        gameOverCanvas.gameObject.SetActive(false);
     }
 
     public void TakeDamage(int damageAmount)
     {
         currentLives -= damageAmount;
         Debug.Log("Player took damage. Remaining lives: " + currentLives);
-
-        // Trigger camera shake with desired intensity and duration
-        if (cameraShake != null)
-        {
-            cameraShake.ShakeCamera(1.0f, 0.5f);
-        }
 
         if (currentLives > 0)
         {
@@ -34,8 +29,10 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             Debug.Log("Player is out of lives. Game over!");
-            // Move to the game over scene
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+            // Show the game over canvas and pause the game
+            gameOverCanvas.gameObject.SetActive(true);
+            currentGameplayCanvas.gameObject.SetActive(false);
+            Time.timeScale = 0; // Pause the game
         }
     }
 
